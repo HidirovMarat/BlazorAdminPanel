@@ -1,0 +1,211 @@
+﻿@page "/"
+@namespace BlazorAdminPanel.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blazor Admin Panel Template</title>
+    <base href="~/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link href="~/dist/jqvmap.css" media="screen" rel="stylesheet" type="text/css">
+
+    <style>
+        #chart3 {
+            position: relative;
+            height: 100% !important;
+            width: 100% !important;
+        }
+    </style>
+
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <app>
+        <component type="typeof(App)" render-mode="ServerPrerendered" />
+    </app>
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    
+
+
+
+    <script src="_framework/blazor.server.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/jqvmap/js/jquery.vmap.js"></script>
+    <script type="text/javascript" src="~/jqvmap/js/jquery.vmap.world.js" charset="utf-8"></script>
+
+    <script>
+        function startMaps(_defCol, _selCol) {
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: '#fff',
+                borderColor: '#000',
+                borderOpacity: 0.25,
+                borderWidth: 1,
+                color: _defCol, //'#AEF8DE',
+                enableZoom: false,
+                hoverColor: '#045C55',
+                hoverOpacity: null,
+                normalizeFunction: 'linear',
+                scaleColors: ['#b6d6ff', '#005ace'],
+                selectedColor: _selCol, //'#51559E',
+                multiSelectRegion: true,
+
+                // Выделенные регионы
+                selectedRegions: null, //['RU', 'UA', 'US', 'CA', 'DE', 'FR', 'KZ', 'CN'],
+                showTooltip: true,
+                //onRegionClick: function (element, code, region) {
+                //    var message = 'Регион - "'
+                //        + region
+                //        + '", код: '
+                //        + code.toUpperCase();
+
+                //    alert(message);
+                //}
+
+            });
+        }
+
+        function selectRegions(data) {
+            console.log(data);
+            jQuery('#vmap').vectorMap('set', 'colors', data);
+        }
+    </script>
+
+
+    <script src="~/chartjs/js/chart.min.js"></script>
+    <script>
+
+        var option = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            }
+        };
+
+        // ===== Граф клиентов =====
+
+        var customersData = {
+            labels: ['янв', 'фев', 'март', 'апр', 'май', 'июнь', 'июль', 'авг', 'сент', 'окт', 'нояб', 'дек'],
+            datasets: [{
+                data: [10, 19, 3, 5, 2, 3, 10, 19, 3, 0, 0, 0],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)' // для типа line цвет оставляем только первый 'rgba(255, 99, 132, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 2
+            }]
+        };
+
+        function startChartCustomers() {
+            ctx1 = document.getElementById('chartCustomers').getContext('2d');
+            chart1 = new Chart(ctx1, {
+                type: 'line',
+                data: customersData,
+                options: option
+            });
+        }
+
+        function changeCustomersData(data) {
+            chart1.data.datasets[0].data = data;
+            chart1.update();
+        }
+
+        // ===== /Граф клиентов =====
+
+
+        // ===== Граф доходов =====
+
+        var earningsData = {
+            labels: ['янв', 'фев', 'март', 'апр', 'май', 'июнь', 'июль', 'авг', 'сент', 'окт', 'нояб', 'дек'],
+            datasets: [{
+                data: [23, 19, 3, 5, 2, 3, 2, 10, 5, 0, 0, 0],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.4)',
+                    'rgba(54, 162, 235, 0.4)',
+                    'rgba(255, 206, 86, 0.4)',
+                    'rgba(75, 192, 192, 0.4)',
+                    'rgba(255, 99, 132, 0.4)',
+                    'rgba(54, 162, 235, 0.4)',
+                    'rgba(255, 206, 86, 0.4)',
+                    'rgba(75, 192, 192, 0.4)',
+                    'rgba(255, 99, 132, 0.4)',
+                    'rgba(54, 162, 235, 0.4)',
+                    'rgba(255, 206, 86, 0.4)',
+                    'rgba(75, 192, 192, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        function startChartEarnings() {
+            ctx2 = document.getElementById('chartEarnings').getContext('2d');
+            chart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: earningsData,
+                options: option
+            });
+        }
+
+        function changeEarningsData(data) {
+            chart2.data.datasets[0].data = data;
+            chart2.update();
+        }
+
+            // ===== /Граф доходов =====
+    </script>
+
+</body>
+</html>

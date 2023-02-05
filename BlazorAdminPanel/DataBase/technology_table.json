@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "PHP",
+    "NumCustomers": 21916,
+    "Percent": 47.96,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  },
+  {
+    "Name": "Python",
+    "NumCustomers": 7445,
+    "Percent": 16.29,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  },
+  {
+    "Name": "ASP.NET",
+    "NumCustomers": 7251,
+    "Percent": 15.87,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  },
+  {
+    "Name": "Perl",
+    "NumCustomers": 5272,
+    "Percent": 11.54,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  },
+  {
+    "Name": "Ruby",
+    "NumCustomers": 3810,
+    "Percent": 8.34,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  }
+]

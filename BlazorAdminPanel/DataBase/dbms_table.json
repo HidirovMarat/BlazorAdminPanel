@@ -1,0 +1,34 @@
+[
+  {
+    "Name": "MySql",
+    "NumCustomers": 21704,
+    "Percent": 45.98,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  },
+  {
+    "Name": "MS SQL",
+    "NumCustomers": 12257,
+    "Percent": 25.97,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  },
+  {
+    "Name": "PostgreSQL",
+    "NumCustomers": 8580,
+    "Percent": 18.18,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  },
+  {
+    "Name": "MS Access",
+    "NumCustomers": 4659,
+    "Percent": 9.87,
+    "ISO": null,
+    "Month": null,
+    "Earnings": 0
+  }
+]

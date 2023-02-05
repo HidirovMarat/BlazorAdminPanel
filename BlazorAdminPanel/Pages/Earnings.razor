@@ -1,0 +1,130 @@
+﻿@page "/earnings"
+
+@using BlazorAdminPanel.Shared.MyComponent
+@using Microsoft.JSInterop
+
+@* Обязательно для вызова метода Dispose, иначе метод вызываться не будет *@
+@implements IDisposable
+
+@inject IJSRuntime JSRuntime
+@inject Models.EarningsTable earningsTable
+
+
+
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0">Доходы текущего года</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-xl-4 mb-4">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <_GraphCustomers earningsTable="earningsTable" />
+                </div>
+                <div class="col-12 mb-4">
+                    <_GraphEarnings  earningsTable="earningsTable"/>
+                </div>
+
+                <div class="col-12 mb-4 mt-2">
+                    <_TotalEarning earningsTable="earningsTable"/>
+                </div>
+                <div class="col-12 mb-4">
+                    <_MonthAverage earningsTable="earningsTable" />
+                </div>
+                <div class="col-12 mb-4">
+                    <_TotalCustomers earningsTable="earningsTable" />
+                </div>
+
+                <div class="col-12 mb-4">
+                    <_EarningsGrowth earningsTable="earningsTable" />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-xl-8 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="text-secondary font-weight-bold m-0">Таблица данных</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive mb-4">
+                        <table class="table">
+                            <tbody>
+                                <tr class="table-primary">
+                                    <th>Доход за аналогичный период прошлого года <small>для сравнения</small></th>
+                                    <th class="text-right">
+                                        @BlazorAdminPanel.Models.EarningsTable.LastYearEarnings
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Месяц</th>
+                                    <th class="text-right">Доход</th>
+                                    <th class="text-right">Кол-во клиентов</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Row i in earningsTable.Rows)
+                                {
+                                    <tr>
+                                        <td>@i.Month</td>
+                                        <td>
+                                            <input @bind-value="@i.Earnings" @onblur="() => earningsTable.Write()" class="rounded-0 border-0 form-control float-right text-success text-right" type="text" maxlength="12" minlength="1">
+                                        </td>
+                                        <td>
+                                            <input @bind-value="@i.NumCustomers" @onblur="() => earningsTable.Write()" class="rounded-0 border-0 form-control float-right text-success text-right" type="text" maxlength="12" minlength="1">
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <th class="text-left">Итого</th>
+                                    <th class="text-right">@earningsTable.TotalEarning</th>
+                                    <th class="text-right">@earningsTable.TotalCustomers</th>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+
+    // Асинхронная инициализация таблицы при загрузке данной страницы
+    protected override void OnInitialized()
+    {
+        earningsTable.UpdateEvent += UpdateDB;
+
+    }
+
+
+    public async void UpdateDB(object sender)
+    {
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+
+    // Очистка перед удалением компонента
+    public void Dispose()
+    {
+
+        earningsTable.UpdateEvent -= UpdateDB;
+
+        // throw new Exception("Удаление");
+    }
+
+}
+
+
+

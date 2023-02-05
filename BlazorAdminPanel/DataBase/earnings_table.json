@@ -1,0 +1,98 @@
+[
+  {
+    "Name": null,
+    "NumCustomers": 312,
+    "Percent": 5.23,
+    "ISO": null,
+    "Month": "Январь",
+    "Earnings": 250354
+  },
+  {
+    "Name": null,
+    "NumCustomers": 341,
+    "Percent": 5.72,
+    "ISO": null,
+    "Month": "Февраль",
+    "Earnings": 128470
+  },
+  {
+    "Name": null,
+    "NumCustomers": 855,
+    "Percent": 14.34,
+    "ISO": null,
+    "Month": "Март",
+    "Earnings": 225835
+  },
+  {
+    "Name": null,
+    "NumCustomers": 554,
+    "Percent": 9.29,
+    "ISO": null,
+    "Month": "Апрель",
+    "Earnings": 211640
+  },
+  {
+    "Name": null,
+    "NumCustomers": 417,
+    "Percent": 6.99,
+    "ISO": null,
+    "Month": "Май",
+    "Earnings": 227628
+  },
+  {
+    "Name": null,
+    "NumCustomers": 429,
+    "Percent": 7.2,
+    "ISO": null,
+    "Month": "Июнь",
+    "Earnings": 186030
+  },
+  {
+    "Name": null,
+    "NumCustomers": 428,
+    "Percent": 7.18,
+    "ISO": null,
+    "Month": "Июль",
+    "Earnings": 158049
+  },
+  {
+    "Name": null,
+    "NumCustomers": 558,
+    "Percent": 9.36,
+    "ISO": null,
+    "Month": "Август",
+    "Earnings": 85808
+  },
+  {
+    "Name": null,
+    "NumCustomers": 342,
+    "Percent": 5.74,
+    "ISO": null,
+    "Month": "Сентябрь",
+    "Earnings": 169083
+  },
+  {
+    "Name": null,
+    "NumCustomers": 777,
+    "Percent": 13.03,
+    "ISO": null,
+    "Month": "Октябрь",
+    "Earnings": 245206
+  },
+  {
+    "Name": null,
+    "NumCustomers": 643,
+    "Percent": 10.78,
+    "ISO": null,
+    "Month": "Ноябрь",
+    "Earnings": 239568
+  },
+  {
+    "Name": null,
+    "NumCustomers": 306,
+    "Percent": 5.13,
+    "ISO": null,
+    "Month": "Декабрь",
+    "Earnings": 140518
+  }
+]

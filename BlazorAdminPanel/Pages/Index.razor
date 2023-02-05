@@ -1,0 +1,86 @@
+﻿@page "/"
+
+
+@using BlazorAdminPanel.Shared.MyComponent
+
+@inject Models.EarningsTable earningsTable
+@inject Models.WebProgTable webprogTable
+@inject Models.DBMSTable dbmsTable
+@inject Models.RegionsTable regionsTable
+
+
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0">Общий свод</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Создать отчёт</a>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-xl-3 mb-4">
+            <_TotalEarning earningsTable="earningsTable" />
+        </div>
+        <div class="col-lg-6 col-xl-3 mb-4">
+            <_MonthAverage earningsTable="earningsTable" />
+        </div>
+
+        <div class="col-lg-6 col-xl-3 mb-4">
+            <_TotalCustomers earningsTable="earningsTable" />
+        </div>
+
+        <div class="col-lg-6 col-xl-3 mb-4">
+            <_EarningsGrowth earningsTable="earningsTable" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 mb-2">
+            <_GraphCustomers earningsTable="earningsTable" />
+        </div>
+        <div class="col-lg-6 mb-2">
+            <_GraphEarnings  earningsTable="earningsTable"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-xl-6">
+            <_Technology Table=@webprogTable Title="Веб программирование" />
+        </div>
+        <div class="col-lg-6 col-xl-6">
+            <_Technology Table=@dbmsTable Title="Базы данных" />
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <_Geography />
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private void ReadFromDB()
+    {
+        webprogTable.Read();
+        dbmsTable.Read();
+        regionsTable.Read();
+        earningsTable.Read();
+    }
+
+
+    // Асинхронная инициализация данных при загрузке веб-страницы.
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(() => ReadFromDB());
+
+        //InitDataBase();
+    }
+
+
+    // Первоначальная инициализация или восстановление базы данных.
+    private void InitDataBase()
+    {
+        webprogTable.Init();
+        dbmsTable.Init();
+        regionsTable.Init();
+        earningsTable.Init();
+    }
+}

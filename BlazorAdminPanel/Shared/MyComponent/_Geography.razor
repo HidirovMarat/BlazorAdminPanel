@@ -1,0 +1,80 @@
+﻿@using Microsoft.JSInterop
+
+@* Обязательно для вызова метода Dispose, иначе метод вызываться не будет *@
+@implements IDisposable
+
+@inject IJSRuntime JSRuntime
+@inject Models.RegionsTable regionsTable
+
+
+<div class="card shadow mb-5">
+    <div class="card-header py-3">
+        <h6 class="text-secondary font-weight-bold m-0">География клиентов</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 col-xl-5">
+                <div>
+                    <div class="table-responsive">
+                        <table class="table geo">
+                            <tbody>
+                                @foreach (Row i in regionsTable.Rows)
+                                {
+                                    <tr>
+                                        <td>@i.Name</td>
+                                        <td class="text-right">@i.Percent%</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="vmap" class="col-md-12 col-xl-7" style="height:300px;"></div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private const string selectedColor = "#51559E";
+    private const string defaultColor = "#AEF8DE";
+
+    public async void UpdateDB(object sender)
+    {
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            // Активируем карту мира.
+            await JSRuntime.InvokeVoidAsync("startMaps", defaultColor, selectedColor);
+
+            
+            // Выделяем страны которые есть в базе.
+            var data = new Dictionary<string, string>();
+            foreach (Row i in regionsTable.Rows)
+            {
+                data[i.ISO.ToLower()] = selectedColor;
+            }
+
+            await JSRuntime.InvokeVoidAsync("selectRegions", data);
+
+
+            regionsTable.UpdateEvent += UpdateDB;
+        }
+    }
+
+
+    // Очистка перед удалением компонента
+    public void Dispose()
+    {
+
+        regionsTable.UpdateEvent -= UpdateDB;
+
+        // throw new Exception("Удаление");
+    }
+}

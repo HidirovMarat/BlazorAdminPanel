@@ -1,0 +1,63 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+@* Обязательно для вызова метода Dispose, иначе метод вызываться не будет *@
+@implements IDisposable
+
+
+
+
+<div class="card shadow">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h6 class="text-secondary font-weight-bold m-0">Доходы</h6>
+    </div>
+    <div class="card-body">
+        <div class="chart-area"><canvas id="chartEarnings"></canvas></div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public Models.EarningsTable earningsTable { get; set; }
+
+
+    // После того как все элементы DOM веб страницы загружены.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            earningsTable.UpdateEvent += UpdateDB;
+
+            // Активируем диаграмму.
+            await JSRuntime.InvokeVoidAsync("startChartEarnings");
+
+            // Обновляем график свежими данными.
+            await Task.Run(() => UpdateChart());
+        }
+    }
+
+
+    private async Task UpdateChart()
+    {
+        int[] data = earningsTable.Rows.Select(r => r.Earnings).ToArray();
+        await JSRuntime.InvokeVoidAsync("changeEarningsData", data);
+    }
+
+
+    public async void UpdateDB(object sender)
+    {
+        await UpdateChart();
+    }
+
+
+    // Очистка перед удалением компонента.
+    public void Dispose()
+    {
+
+        earningsTable.UpdateEvent -= UpdateDB;
+
+        // throw new Exception("Удаление");
+    }
+
+}
